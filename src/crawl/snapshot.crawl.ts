@@ -219,9 +219,9 @@ export class SnapshotCrawl {
 
     async crawlResellInvoice() {
         const { startDate, endDate } = this.periodHelper.getStartAndEndDateForCurrentMonth();
-        const rows = await this.isService.getResellByDateRange('2025-12-26', '2026-04-25');
+        // const rows = await this.isService.getResellByDateRange('2025-12-26', '2026-04-25');
         // const rows = await this.isService.getResellByDateRange('2026-03-26', '2026-04-25');
-        // const rows = await this.isService.getResellByDateRange(startDate, endDate);
+        const rows = await this.isService.getResellByDateRange(startDate, endDate);
 
         const commissionData = rows.map((row: any) => {
             let isNew = false;

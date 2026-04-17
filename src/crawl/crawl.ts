@@ -10,7 +10,7 @@ class Crawl {
     async run() {
         try {
             console.log("Starting the invoice crawl...");
-            // await this.snapshotCrawl.crawlInternalInvoice();
+            await this.snapshotCrawl.crawlInternalInvoice();
             console.log("Invoice crawl finished.");
             console.log("Starting the invoice crawl...");
             await this.snapshotCrawl.crawlResellInvoice();
