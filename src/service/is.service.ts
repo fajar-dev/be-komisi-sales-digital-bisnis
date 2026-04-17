@@ -63,9 +63,10 @@ export class IsService {
             SELECT 
                 nciit.AI, nciit.counter, nciit.new_subscription, nciit.dpp, 
                 nciit.is_prorata, nciit.is_upgrade, nciit.trx_date,
-                cit.InvoiceNum, cit.AwalPeriode, cit.AkhirPeriode, cit.InvoicePeriodStart, cit.InvoicePeriodEnd,
-                IFNULL(citc.InvoiceDate, cit.InvoiceDate) as InvoiceDate, 
+                cit.InvoiceNum, cit.AwalPeriode, cit.AkhirPeriode, cit.InvoicePeriodStart, cit.InvoicePeriodEnd, cit.total_account,
+                IFNULL(citc.InvoiceDate, cit.InvoiceDate) as InvoiceDate,
                 cs.CustServId, cs.SalesId, cs.ManagerSalesId,
+                csc.modal_cost_per_user AS ModalCostUser,
                 c.CustId, c.CustCompany, 
                 s.ServiceId, s.ServiceType, s.ServiceLevel, s.BusinessOperation,
                 itm.Month,
@@ -87,6 +88,8 @@ export class IsService {
             LEFT JOIN CustomerServices cs 
                 ON cs.CustId = nci.CustId 
                 AND cs.ServiceId = cit.ServiceId
+            LEFT JOIN CustomerServiceCost csc 
+                ON csc.customer_service_id = cs.CustServId
             LEFT JOIN Customer c 
                 ON c.CustId = nci.CustId
             LEFT JOIN Services s 

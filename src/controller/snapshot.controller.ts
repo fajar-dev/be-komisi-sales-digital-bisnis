@@ -47,14 +47,14 @@ export class SnapshotController {
             isNew: row.is_new,
             isUpgrade: row.is_upgrade,
             isTermin: row.is_termin,
-            isAdjustment: row.is_adjustment,
             type: row.type,
             salesCommission: row.sales_commission,
             salesCommissionPercentage: row.sales_commission_percentage,
-            modal: row.adjustment_modal,
-            price: row.adjustment_price,
-            margin: row.adjustment_margin,
-            markup: row.adjustment_markup,
+            totalAccount: row.total_account,
+            modal: row.modal,
+            price: row.price,
+            margin: row.margin,
+            markup: row.markup,
             }));
 
             const newResellData: any[] = [];
@@ -158,7 +158,6 @@ export class SnapshotController {
                 isNew: row.is_new,
                 isUpgrade: row.is_upgrade,
                 isTermin: row.is_termin,
-                isAdjustment: row.is_adjustment,
                 type: row.type,
                 // renamed fields
                 implementatorCommission,
@@ -274,17 +273,14 @@ export class SnapshotController {
                 isNew: row.is_new,
                 isUpgrade: row.is_upgrade,
                 isTermin: row.is_termin,
-                isAdjustment: row.is_adjustment,
                 type: row.type,
                 salesCommission: row.sales_commission,
                 salesCommissionPercentage: row.sales_commission_percentage,
-                modal: row.adjustment_modal,
-                price: row.adjustment_price,
-                adjustmentCommission: row.adjustment_commission,
-                adjustmentMarkup: row.adjustment_markup,
-                adjustmentMargin: row.adjustment_margin,
-                adjustmentCommissionPercentage: row.adjustment_commission_percentage,
-                adjustmentNote: row.adjustment_note,
+                totalAccount: row.total_account,
+                modal: row.modal,
+                price: row.price,
+                margin: row.margin,
+                markup: row.markup,
             };
             
             return c.json(

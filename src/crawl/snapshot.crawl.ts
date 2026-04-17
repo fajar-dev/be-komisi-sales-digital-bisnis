@@ -219,9 +219,9 @@ export class SnapshotCrawl {
 
     async crawlResellInvoice() {
         const { startDate, endDate } = this.periodHelper.getStartAndEndDateForCurrentMonth();
-        // const rows = await this.isService.getResellByDateRange('2025-12-26', '2026-01-25');
-        // const rows = await this.isService.getResellByDateRange('2026-01-26', '2026-02-25');
-        const rows = await this.isService.getResellByDateRange(startDate, endDate);
+        const rows = await this.isService.getResellByDateRange('2025-12-26', '2026-04-25');
+        // const rows = await this.isService.getResellByDateRange('2026-03-26', '2026-04-25');
+        // const rows = await this.isService.getResellByDateRange(startDate, endDate);
 
         const commissionData = rows.map((row: any) => {
             let isNew = false;
@@ -287,6 +287,34 @@ export class SnapshotCrawl {
                 }
             }
 
+            let price = 0;
+            let modal = 0;
+            let markup = 0;
+            let margin = 0;
+
+            if (isNew || isUpgrade || row.is_prorata === 1) {
+                modal = Number(row.ModalCostUser ?? 0);
+
+                if (modal === 0) {
+                    price = 0;
+                    markup = 0;
+                    margin = 0;
+                    commissionPercentage = 2.5;
+                } else {
+                    const totalAccount = Number(row.total_account || 1);
+                    price = dpp / totalAccount;
+                    markup = price - modal;
+                    margin = price !== 0 ? (markup / price) * 100 : 0;
+
+                    commissionPercentage = 2.5;
+                    if (margin >= 15) {
+                        commissionPercentage = 5;
+                    } else if (margin >= 10) {
+                        commissionPercentage = 4;
+                    }
+                }
+            }
+
             const commissionAmount = dpp * (commissionPercentage / 100);
 
             let referral: string | null = null;
@@ -317,6 +345,11 @@ export class SnapshotCrawl {
                 isUpgrade,
                 isTermin,
                 mrc,
+                price,
+                modal,
+                markup,
+                margin,
+                totalAccount: Number(row.total_account ?? 0),
                 salesCommission: commissionAmount,
                 salesCommissionPercentage: commissionPercentage,
                 implementatorId: row.Surveyor,
