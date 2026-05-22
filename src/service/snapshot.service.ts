@@ -197,4 +197,12 @@ export class SnapshotService {
         return (rows as any[])[0];
     }
 
+    static async deleteByPeriod(startDate: string, endDate: string) {
+        const [result] = await pool.query(
+            "DELETE FROM snapshot WHERE paid_date BETWEEN ? AND ?",
+            [startDate, endDate]
+        );
+        return result;
+    }
+
 }

@@ -1,5 +1,7 @@
 import { SnapshotCrawl } from "./snapshot.crawl";
 import { EmployeeCrawl } from "./employee.crawl";
+import { SnapshotService } from "../service/snapshot.service";
+import { period } from "../helper/period";
 
 class Crawl {
     constructor(
@@ -9,6 +11,11 @@ class Crawl {
     
     async run() {
         try {
+            const { startDate, endDate } = period.getStartAndEndDateForCurrentMonth();
+            console.log(`Deleting existing crawl data for period ${startDate} to ${endDate}...`);
+            await SnapshotService.deleteByPeriod(startDate, endDate);
+            console.log("Existing crawl data for the period deleted.");
+
             console.log("Starting the invoice crawl...");
             await this.snapshotCrawl.crawlInternalInvoice();
             console.log("Invoice crawl finished.");
